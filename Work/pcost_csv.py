@@ -1,6 +1,7 @@
 # pcost.py
 #
 # Exercise 1.27
+import csv
 import sys
 
 def portfolio_cost(filename):
@@ -8,9 +9,9 @@ def portfolio_cost(filename):
         try:
             with open(filename) as file:
                 total_cost = 0
-                next(file)
-                for shares in file:
-                    share = shares.split(',')
+                rows = csv.reader(file)
+                next(rows)
+                for share in rows:
                     total_cost += int(share[1]) * float(share[2])
             return total_cost
         except FileNotFoundError:
