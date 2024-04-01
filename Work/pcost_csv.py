@@ -10,9 +10,15 @@ def portfolio_cost(filename):
             with open(filename) as file:
                 total_cost = 0
                 rows = csv.reader(file)
-                next(rows)
-                for share in rows:
-                    total_cost += int(share[1]) * float(share[2])
+                headers = next(rows)
+                for rown, row in enumerate(rows):
+                    record = dict(zip(headers, row))
+                    try:
+                        nshares = int(record['shares'])
+                        price = float(record['price'])
+                        total_cost += nshares*price
+                    except ValueError:
+                        print(f"Row {rown}: Bad row: {row}")
             return total_cost
         except FileNotFoundError:
             print("Error: File Not found")
